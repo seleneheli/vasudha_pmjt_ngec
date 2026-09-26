@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     form.append("username", email);
     form.append("password", password);
 
-    const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+    const res = await fetch("https://vasudha-pmjtngec.onrender.com/api/v1/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: form,
