@@ -5,9 +5,18 @@
  * Deploy:  set VITE_API_BASE at Vercel build time to your Render URL, e.g.
  *          https://vasudha-backend.onrender.com/api/v1
  */
+const ENV_API_BASE =
+  typeof import.meta !== "undefined" ? (import.meta as any).env?.VITE_API_BASE : undefined;
+
+// Use an explicit Vercel/Render environment variable when provided.
+// In local Vite development, fall back to the local Flask server.
+// In production, fall back to the deployed Render backend so a missing Vercel
+// environment variable cannot silently send requests to the visitor's localhost.
 const BASE_URL =
-  (typeof import.meta !== "undefined" && (import.meta as any).env?.VITE_API_BASE) ||
-  "http://127.0.0.1:8000/api/v1";
+  ENV_API_BASE ||
+  ((typeof import.meta !== "undefined" && (import.meta as any).env?.DEV)
+    ? "http://127.0.0.1:8000/api/v1"
+    : "https://vasudha-pmjtngec.onrender.com/api/v1");
 
 function getToken(): string | null {
   try {
@@ -51,6 +60,6 @@ export function getApiOrigin(): string {
     const u = new URL(BASE_URL);
     return u.origin;
   } catch {
-    return "http://127.0.0.1:8000";
+    return "https://vasudha-pmjtngec.onrender.com";
   }
 }

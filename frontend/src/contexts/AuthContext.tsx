@@ -5,6 +5,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import type { AuthUser } from "../types";
+import { getApiBase } from "../services/apiClient";
 
 interface AuthContextValue {
   user: AuthUser | null;
@@ -43,7 +44,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     form.append("username", email);
     form.append("password", password);
 
-    const res = await fetch("https://vasudha-pmjtngec.onrender.com/api/v1/auth/login", {
+    const res = await fetch(`${getApiBase()}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: form,

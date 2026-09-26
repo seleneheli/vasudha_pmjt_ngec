@@ -82,15 +82,10 @@ export default function OccupancyPage() {
     reload();
   }, [activeBuilding]);
 
- const floors: string[] = useMemo(() => {
-  if (!status?.rooms) return [];
-
-  return Array.from(
-    new Set<string>(
-      status.rooms.map((r: Room) => String(r.floor))
-    )
-  ).sort();
-}, [status]);
+  const floors: string[] = useMemo(() => {
+    if (!status?.rooms) return [];
+    return Array.from(new Set<string>(status.rooms.map((r: Room) => r.floor))).sort();
+  }, [status]);
 
   const filteredRooms: Room[] = useMemo(() => {
     if (!status?.rooms) return [];
